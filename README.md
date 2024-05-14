@@ -105,6 +105,6 @@ When we finally add notes to our repository, we want to be able to easily get to
 Add the following Markdown below the 'Table of Contents' header
 
 ```
-- Week 1
-  - Day 1
+- [Week 1](https://github.com/Rusgyn/lighthouse-web-notes/tree/main/Week_1)
+  - [Day 1](https://github.com/Rusgyn/lighthouse-web-notes/tree/main/Week_1/Day_1)
 ```
