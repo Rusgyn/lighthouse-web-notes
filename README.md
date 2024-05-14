@@ -102,9 +102,8 @@ When we finally add notes to our repository, we want to be able to easily get to
 > Add an appropriately sized 'Table of Contents' header.
 > Create a nested list under the header.
 
-Add the following Markdown below the 'Table of Contents' header
+## Table of Contents
 
-```
-- [Week 1](https://github.com/Rusgyn/lighthouse-web-notes/tree/main/Week_1)
-  - [Day 1](https://github.com/Rusgyn/lighthouse-web-notes/tree/main/Week_1/Day_1)
-```
+* [Week 1](https://github.com/Rusgyn/lighthouse-web-notes/tree/main/Week_1)
+  * [Day 1](https://github.com/Rusgyn/lighthouse-web-notes/tree/main/Week_1/Day_1)
+
