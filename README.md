@@ -106,4 +106,5 @@ When we finally add notes to our repository, we want to be able to easily get to
 
 * [Week 1](https://github.com/Rusgyn/lighthouse-web-notes/tree/main/Week_1)
   * [Day 1](https://github.com/Rusgyn/lighthouse-web-notes/tree/main/Week_1/Day_1)
+  * [Whats-for-lunch](https://github.com/Rusgyn/whats-for-lunch) - using if statement
 
