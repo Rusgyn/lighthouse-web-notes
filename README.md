@@ -95,4 +95,16 @@ We can create a link with the following Markdown syntax:
 > #### Instruction
 > Confirm that your changes are reflected on Github.
 
+## Creating a Table of Contents Using Lists
+When we finally add notes to our repository, we want to be able to easily get to a desired folder from the main repository page. For this we can create a table of contents, which will be a list of links to the folders in our repository.
 
+> #### Instruction
+> Add an appropriately sized 'Table of Contents' header.
+> Create a nested list under the header.
+
+Add the following Markdown below the 'Table of Contents' header
+
+```
+- Week 1
+  - Day 1
+```
