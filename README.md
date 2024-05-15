@@ -9,8 +9,11 @@ This repository contains all of the notes taken by [Rusgyn Magsanay](https://git
 
 * [Week 1](https://github.com/Rusgyn/lighthouse-web-notes/tree/main/Week_1)
   * [Day 1](https://github.com/Rusgyn/lighthouse-web-notes/tree/main/Week_1/Day_1)
-  * [Whats-for-lunch](https://github.com/Rusgyn/whats-for-lunch) - using if statement
+    * [Whats-for-lunch](https://github.com/Rusgyn/whats-for-lunch) - using if statement
+    * [Lotide](https://github.com/Rusgyn/lotide) - very own Lodash
 
+
+>
 
 ## Initializing A New Project
 
