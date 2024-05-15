@@ -86,3 +86,52 @@ $ node processargv.js tom jack 43
 0 index = path to our node executable
 1st index = contains the path to the script file
 rest = are arguments
+
+## Console: assert()
+The console.assert() static method writes an error message to the console if the assertion is false. If the assertion is true, nothing happens.
+
+> #### Instruction
+> Try out console.assert in the node REPL
+
+```shell
+node 
+console.assert(1 === 1); // => nothing happens because true
+console.assert (1 === 1.1); // => print outs "Assertion failed" to the terminal
+```
+We could use this to test 
+
+```shell
+// FUNCTION IMPLEMENTATION
+const sum = function (a, b) {
+  return a + b;
+};
+
+// TEST CODE
+console.assert(sum(1, 2) === 3);
+console.assert(sum(1, 20) === 3); // bad / incorrect assertion, and we see it fail!
+```
+
+```shell
+// FUNCTION IMPLEMENTATION
+const sumBuggy = function (a, b) {
+  return a * b;
+};
+
+// TEST CODE
+console.assert(sumBuggy(1, 2) === 3); // fails, because bug!
+```
+
+The console.assert function prints to the console for us, the developer, when an expected outcome is not met (fails) so that we can look into why.
+
+## ES6 - Template Literals
+also known as Template Strings.
+
+```shell
+const name1 = 'Gabrielle Kaye';
+const name2 = 'Dean Aurelius';
+console.log(`Hello, ${name1} and ${name2}!`);
+```
+output:
+```
+Hello, Gabrielle Kaye and Dean Aurelius!
+```
