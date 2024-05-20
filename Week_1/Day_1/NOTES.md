@@ -135,3 +135,126 @@ output:
 ```
 Hello, Gabrielle Kaye and Dean Aurelius!
 ```
+## Function
+
+Conventions for naming a functions:
+- avoid generic names like 'data', or 'run'.
+- name your functions beginning with action words like createUser, or sendUserData.
+- be consistent with your naming conventions.
+- if you're joining an existing project, observe and adapt any existing conventions.
+
+Following best practices when creating functions:
+
+1. Give your functions precise verb/action based names
+2. Use camelCasedNames (like this one)
+3. Properly indent the function code
+4. Functions should focus on a single task: returning a value or causing a side effect. Break your function into additional smaller functions if you find it doing two or more things.
+  - One single task could be to compute and return a value (eg: zeroPad)
+  - Another single task could be to perform a side effect such as logging a message to the screen (eg: printFarmInventory)
+5. Data needed by Functions should be passed in as parameters/arguments (i.e. local scope) instead of being accessed directly
+
+## Javascript scope
+1. Global-scope - variable is available everywhere in the code
+2. local-scope - variable would only be available within the function in which it's defined.
+
+  Example:
+  ```
+    let myGlobalVar = "global";
+
+    const printMyVars = function() {
+      let myLocalVar = "local";
+      console.log("-- Inside printMyVars --");
+      console.log("myLocalVar is:", myLocalVar);
+      console.log("myGlobalVar is:", myGlobalVar);
+    }
+
+    printMyVars();
+
+    console.log('-- Outside of printMyVars now --');
+    console.log(myLocalVar);
+  ```
+
+  Output:
+
+  ```
+  -- Inside printMyVars --
+  myLocalVar is: local
+  myGlobalVar is: global
+  -- Outside of printMyVars now --
+  /Users/rus/lighthouse/lotide/tail.js:52
+  console.log(myLocalVar);
+              ^
+
+  ReferenceError: myLocalVar is not defined
+  ```
+## Coercion and TruthyFalsey
+The === does not only compare two values, but also the type of those values
+
+  Example:
+  ```
+  23 === '23'
+  ```
+  Output:
+  ```
+  False
+  ```
+  Even though both of the above values are 23, one is a String and the other is a Number. Before comparing the actual values, === will compare the types, see that they are not the same, and immediately return False without going any further.
+
+The == operator will attempt to force the two values to be of the same type, if possible. This is called type coercion, and it can really mess up your expected results if you're not careful. 
+
+  Example:
+  ```
+  23 == '23'
+  ```
+  Output:
+  ```
+  True
+  ```
+
+## Iteration using for..of or for..in
+
+Difference between for...of and for...in
+The main difference between them is in what they iterate over. The for...in statement iterates over the enumerable string properties of an object, while the for...of statement iterates over values that the iterable object defines to be iterated over.
+
+> for...of
+>
+> For arrays, a regular for loop or for...of loop is usually a safer choice.
+
+loop operates on the values sourced from an iterable one by one in sequential order. Each operation of the loop on a value is called an iteration, and the loop is said to iterate over the iterable. Each iteration executes statements that may refer to the current sequence value.
+
+  Example:
+  ```
+    const array1 = ['a', 'b', 'c'];
+
+    for (const element of array1) {
+      console.log(element);
+    }
+
+    // Expected output: "a"
+    // Expected output: "b"
+    // Expected output: "c"
+  ```
+
+> for..in
+>
+> it's generally recommended to use for...in with objects, not arrays. 
+
+statement iterates over all enumerable string properties of an object (ignoring properties keyed by symbols), including inherited enumerable properties.
+
+  Example:
+  ```
+  const object = { a: 1, b: 2, c: 3 };
+
+  for (const property in object) {
+    console.log(`${property}: ${object[property]}`);
+  }
+
+  // Expected output:
+  // "a: 1"
+  // "b: 2"
+  // "c: 3"
+```
+
+
+
+
