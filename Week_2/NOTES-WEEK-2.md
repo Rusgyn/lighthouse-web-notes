@@ -203,3 +203,310 @@ JavaScript objects, `{key: value}`, themselves are not iterable in the way that 
 
 The `hasOwnProperty()` method returns true if the specified property is a direct property of the object — even if the value is null or undefined. The method returns false if the property is inherited, or has not been declared at all.
 
+## this
+we cannot use arrow functions when using `this`, always use function operations
+arrow function ()=>{} doesn't have context or idea what is it but using ordinary function() {} knows what its referring to (name of the object).
+no matter how deep your object is, `this` will always point to the object name.
+
+  Example:
+  ```
+  const objectOne = {
+    breed: "Husky",
+    age: 2,
+    happyBday: function() {
+      this.age++;
+    }
+  }
+
+  console.log(this.age);
+  ```
+  Output:
+  ```
+  3
+  ```
+## Comparing Objects
+- when comparing arrays using `===`, it will always return false 
+
+because they are two separate arrays, regardless of whether they contain the same values or not
+- util library's inspect function, intended for debugging and returns a string representation of the object.
+  Example:
+  ```
+  const assertObjectsEqual = function (actual, expected) {
+    const inspect = require("util").inspect;
+
+    if (eqObjects(actual, expected)) {
+      console.log(console.log(`✅✅✅ Assertion Passed: ${inspect(actual)} === ${inspect(expected)}`));
+    } else {
+      console.log(`🛑🛑🛑 Assertion Failed: ${inspect(actual)} !== ${inspect(expected)}`);
+    }
+  };
+
+  assertObjectsEqual({ a: '1', b: 2 }, { b: 2, a: '1' });
+  ```
+
+  Output: (with inspect)
+  ```
+  ✅✅✅ Assertion Passed: { a: '1', b: 2 } === { b: 2, a: '1' }
+  ```
+  Output: (without inspect)
+  ```
+  ✅✅✅ Assertion Passed: [object Object] === [object Object]
+  ```
+
+## Function as Objects
+#### JavaScript Functions as Objects
+- One of the distinctive things about JavaScript is that functions are <b>[first-class objects](https://en.wikipedia.org/wiki/First-class_citizen)</b>.
+
+This means two important things:
+1. Functions can be stored in variables and passed around
+2. Functions can do everything that other objects can do (like having properties assigned to them)
+
+```
+const myFn = function () {
+  console.log("I am function.");
+};
+
+myFn.someAttribute = 42;
+console.log(myFn.someAttribute);
+
+function runner(func) {
+  func();
+}
+
+runner(myFn);
+```
+Output:
+```
+42
+I am function!
+```
+
+So what is going on, and why is it special?
+
+- We assign a function to our variable myFn
+- An attribute someAttribute is assigned to that function object
+- A `runner()` function is defined that runs the argument `func` that we pass it
+- We pass a reference to our `myFn`, which gets invoked by the runner function
+
+#### Callback Functions
+- having functions as values in JavaScript is a <b>callback function</b>.
+
+A callback function:
+
+1. Is a function passed (by reference) into another function (let's call that one the "receiver" function)
+2. The receiver function is therefore accepting behavior to perform by calling the callback function that it now has access to
+3. The receiver function can decide to call the callback function at any time, as many times as it wants
+
+Remember, a callback function is a function that is passed as an argument to another function and is executed after some operation has been completed. 
+
+  Example:
+  ```
+    // The second argument/parameter (found) is expected to be a (callback) function.
+
+    const findWaldo = function (names, found) {
+      for (let i = 0; i < names.length; i++) {
+        let name = names[i];
+        console.log(name);
+        if (name === "Waldo") {
+          found(); // execute callback
+        }
+      }
+    };
+
+    const actionWhenFound = function () {
+      console.log("Found him!");
+    };
+
+    findWaldo(["Alice", "Bob", "Waldo", "Winston"], actionWhenFound);
+  ```
+  Output:
+
+  ```
+  Alice
+  Bob
+  Waldo
+  Found him!
+  Winston
+  ```
+  Note:
+
+  This code illustrates how a function can be treated as an ordinary value and passed around to another function. We pass a reference to the function named actionWhenFound as an argument to another function findWaldo.
+
+  The function actionWhenFound is known as a callback function. It is first defined, then passed as an argument to another function, and finally executed once a specific event occurs.
+
+  Example: 
+
+    ```
+    const findWaldo = function (names, found) {
+
+      let foundWaldo = false; //flag that checks if Waldo is found;
+
+      names.forEach((name, index) => {
+        if(name === "Waldo") {
+          found(name, index);
+          foundWaldo = true;
+        }
+      });
+    
+      //statement if Waldo is not in the argument.
+      if(!foundWaldo) {
+        console.log("Waldo not found!");
+      }
+
+    };
+
+    const actionWhenFound = function (element, idx) {
+      console.log(`Found ${element} at index ${idx}!`);
+    };
+
+    //Test Case:
+
+    findWaldo(["Alice", "Bob", "Waldo", "Winston"], actionWhenFound); // => Found Waldo at index 2!
+    findWaldo(["Alice", "Bob", "Winston"], actionWhenFound); // => Waldo not found!
+
+    ```
+  Output:
+
+  ```
+  Found Waldo at index 2!
+  Waldo not found!
+  ```
+
+#### Anonymous Functions
+- Functions dont need to be named, or even assigned to a variable
+- cannot be reuse
+- Anonymous functions are often declared while being passed in as callbacks to other functions. Why? Because the receiving function that takes in the anonymous function will give that parameter a name anyway.
+
+  Example: callback function defined as "inline"
+
+  ```
+  findWaldo(["Alice", "Bob", "Waldo", "Winston"], function (index) {
+    console.log("Waldo is located at:", index);
+  });
+  ```
+
+  ```
+  const findWaldo = function(names, actionWhenFound) {
+
+  let foundWaldo = false; // This flag is used to determine if "Waldo" was found during the iteration.
+
+  names.forEach((name, index) => {
+    if (name === "Waldo") {
+      foundWaldo = true; // If "Waldo" is found, the flag is set to true.
+      actionWhenFound(name, index); // The anonymous callback function is invoked with the name and index as arguments.
+    }
+  });
+  
+  // If "Waldo" was not found during the iteration, an error is thrown.
+    if (!foundWaldo) {
+      console.log("Waldo not found!");
+    }
+  };
+
+    //Test Case:
+    
+    findWaldo(["Alice", "Bob", "Waldo", "Winston"], function(element, idx) {
+    console.log(`Found ${element} at index ${idx}!`);}); // => Found Waldo at index 2!
+    
+    findWaldo(["Alice", "Bob", "Winston"], function(element, idx) {
+      console.log(`Found ${element} at index ${idx}!`);
+    }); // => Waldo not found!
+  ```
+  Output:
+  ```
+  Found Waldo at index 2!
+  Waldo not found!
+  ```
+
+#### Arrow Functions
+- shorter function
+
+
+## Higher Order functions
+- Functions that take in callbacks
+- functions which operate on other functions
+- functions that takes other function as an argument or returns a function as a result.
+- built-in functions such as forEach, filter, rejects (opposite of filter), map and others can be called "Higher-Order Functions".
+
+functions are values
+
+```
+function triple(x) {
+  return x * 3;
+}
+```
+```
+let triple = function(x) {
+  return x * 3;
+}
+let waffle = triple;
+
+console.log(waffle(30));
+```
+
+Function is assigned to a variable waffle or pass to other functions (higher order functions)
+
+#### Filtering Using Callbacks
+  ```
+  const numbers = [1, 2, 3, 4, 5, 7, 10, 14, 17, 18];
+  const evens = numbers.filter(function(num) {
+    return num % 2 === 0;
+  });
+  console.log("Subset of even numbers:", evens);
+  ```
+
+  > Question:
+    Can you spot the callback function in the above example? What is it responsible for and what is it named?
+  > Answer:
+    evens' is actually the name of the array that stores the result of the filter operation.
+    The callback function in this case is an anonymous function, which means it doesn't have a name. Here it is:
+    ```
+    function(num) {
+      return num % 2 === 0;
+    }
+    ```
+
+    Remember, a callback function is a function that is passed as an argument to another function and is executed after some operation has been completed. In this case, the callback function is executed for each element in the 'numbers' array when the filter method is called.
+
+## VIM
+- is pretty useful - if not absolutely necessary - if you have to edit a file in a remote ssh terminal.
+- Vim is also the default editor for git -- it launches vim when it needs additional text from you, such as a commit message.
+
+> <b>Instruction:</b>
+> To launch, open your terminal and type vim.
+
+#### Moving around
+- "H" moves left
+-  "K" moves up; 
+- "L" moves right;
+- "J" moves down.
+- Y copies a line of text to the buffer
+- P pastes it to the cursor's current position.
+- dd will delete the whole line of text. This will also effectively "cut" a line of text as well. When you delete a line, it's placed in the buffer.
+- yy copies a whole line of text.
+
+#### Create/Open a file
+> <b>Instruction:</b>
+> Create a new file and open it in vim by typing `vim tutorial.txt`
+> Will create a file named `tutorial.txt` and open it in vim
+
+#### Edit a file
+- To switch to edit mode (also called "insert mode") you need to give VIM a command to tell it to switch modes.
+  - Press "i" to begin inserting text at the current cursor position.
+  - Press "a" to begin inserting after the current cursor position.
+
+> <b>Instruction: </b>
+> Press "i" in the file to enter insert mode. Add some text to the file.
+
+Getting out of editing mode
+
+> <b>Instruction: </b>
+> Press `ESC` in the file to make sure you are back to command mode.
+
+#### Saving a File
+- Make sure you are in command mode. Use escape key to make sure.
+>type `:w`
+
+#### Quit VIM
+> `:wq` - write (save) and quit file (and vim)
+> `:q!` - quit and ignore changes made since last file save.
