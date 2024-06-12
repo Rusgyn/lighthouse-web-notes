@@ -145,6 +145,7 @@ It's also worth noting that recursion is a type of control flow. When we read lo
   - we can `console.log(module)` and see its details
 - `module.exports` tells node what to export from a file
   - it defaults to `{}`
+  - exporting a function or variable makes it accessible to other modules that import it. If a function or variable is only used within the module it's defined in, there's no need to export it.
 - we can use `require` with relative paths (like ./myModule)
   - it doesn't need the `.js` extension, as that is implied
 
@@ -295,20 +296,22 @@ is a magic button that tells us if our code is working. But instead of a button,
 
   output:
   ```
-  rus@Rusgyns-Air test % npm test 
+    rus@Rusgyns-Air test % npm test 
 
-> unit_testing@1.0.0 test
-> ./node_modules/mocha/bin/mocha
+  > unit_testing@1.0.0 test
+  > ./node_modules/mocha/bin/mocha
 
 
-  The function groupValidator()
-    ✔ should return true if there are between 2 and 5 group members
+    The function groupValidator()
+      ✔ should return true if there are between 2 and 5 group members
 
-  1 passing (3ms)
+    1 passing (3ms)
   ```
 
 
 # Object Oriented
+
+In object oriented programming, we use objects to group related variables and functions together to keep our code more organized.
 
 Object-Oriented Programming is a way of writing code that encourages modularity and reduces duplication through the use of objects. It originated in the 1960s and became popular with C++ in the 1990s.
 
@@ -343,4 +346,241 @@ Having multiple paradigms arguably makes a language more flexible and powerful, 
 - JavaScript is not strictly OO in the way that Java or Ruby are
 - Functional Programming is an alternative paradigm, and one that JavaScript also encourages
 
+# Classes & Instances
+In OOP, classes are blueprints (templates) that we use to create instances of objects. A class describes what the object is going to be and we can create new objects using the class.
 
+#### Class
+To declare a class, you use the class keyword with the name of the class.
+
+```
+//Class or blueprint
+
+class Pizza {
+
+}
+```
+
+- We can use any name for the class - Noun
+- First letter always be capitalized
+
+#### Object
+To create a new object from a class, we use `new` keyword.
+
+```
+//Object or instances
+
+let pizza1 = new Pizza();
+let pizza2  = new Pizza();
+```
+
+`pizza1` and `pizza2` are pizza objects.
+When you create an object using a class, it is an instance of that class.
+So `pizza1` and `pizza2` are instances of the Pizza class.
+
+## Methods and Properties
+
+```
+class Pizza {
+
+  constructor() {
+    this.toppings = ["cheese"];
+  }
+
+  addTopping(topping) {
+    this.toppings.push(topping);
+  }
+
+}
+```
+Methods are the `constructor` and `addTopping`
+Property is `topping`
+
+```
+//Method Syntax
+
+class SomeClassName {
+  methodName(parameters) {
+    //thi is a method
+  }
+}
+```
+
+
+#### Introduction to `constructor`
+
+<b>constructor</b> is a special kind of method that gets executed when an object instance is created from a class.
+
+#### Customizing the construction
+
+  Example:
+  ```
+  //CUSTOMIZING THE CONSTRUCTOR
+
+  //Class or blueprint/template
+  class Pizza {
+    //constructor is a special kind of method that gets executed when an object instance (method) is created from a class
+    constructor(size, crust, dough) {
+      this.size = size;
+      this.crust = crust;
+      this.dough = dough;
+      this.toppings = ['cheese']
+      this.order = function() {
+        return `Your order is a ${this.size} Pizza, with ${this.crust} crust, ${this.dough} dough, and toppings: ${this.toppings}`;
+      };
+    }
+    //method
+    addTopping(topping) {
+      this.toppings.push(topping);
+    }
+
+  }
+
+  //Object or instance
+  let pizza = new Pizza('large', 'thin', 'wheat');
+  pizza.addTopping('mushroom');
+  console.log(pizza.order()); //=> Your order is a large Pizza, with thin crust, wheat dough, and toppings: cheese,mushroom
+
+  //pizza Object its properties will look like this:
+  /*
+  let pizza = {
+    size: 'large',
+    crust: 'thin',
+    dough: 'wheat'
+    toppings: ['cheese'];
+    order: function() {
+      return `Your order is a ${this.size} Pizza, with ${this.crust} crust, ${this.dough} dough, and toppings: ${this.toppings}`
+    }
+  }
+  */
+
+  ```
+
+#### Primitive as Objects:
+
+Note:
+```
+typeof(true); 
+// "boolean" 
+typeof(Boolean(true)); 
+// => "boolean" 
+typeof(new Boolean(true));
+// => "object"
+```
+
+== (type coercion vulnerable).
+=== (strict comparative)
+
+```
+const greeting = "Hello, world!" 
+const objGreeting = new String("Hello, world!");
+
+greeting == objGreeting; 
+// => true
+
+greeting === objGreeting; 
+// => false
+
+```
+
+## Conclusion
+- The class syntax.
+- The purpose of the new keyword and the concept of constructor functions.
+- The difference between classes and instances.
+- How we are able to create new object instances with and without class.
+
+# Inheritance
+
+Build a new class based on an existing class.
+Duplication problem solution
+
+if two classes have same constructor() then use inheritance.
+
+```
+//Duplication Problem
+// Class Student and Class Mentor has same constructor
+
+  class Student {
+    // this constructor is identical to that of a mentor!
+    constructor(name, quirkyFact) {
+      this.name = name;
+      this.quirkyFact = quirkyFact;
+    }
+
+    // here is a method that is specific to students
+    enroll(cohort) {
+      this.cohort = cohort;
+    }
+
+    // identical! Smells of code duplication
+    bio() {
+      return `My name is ${this.name} and here's my quirky fact: ${this.quirkyFact}`;
+    }
+  }
+
+  class Mentor {
+    // this constructor is identical to that of a student!
+    constructor(name, quirkyFact) {
+      this.name = name;
+      this.quirkyFact = quirkyFact;
+    }
+
+    // specific to mentors
+    goOnShift() {
+      this.onShift = true;
+    }
+
+    // specific to mentors
+    goOffShift() {
+      this.onShift = false;
+    }
+
+    // identical! Smells of code duplication
+    bio() {
+      return `My name is ${this.name} and here's my quirky fact: ${this.quirkyFact}`;
+    }
+  }
+
+
+```
+
+Solution usng inheritance
+
+```
+//Inheritance
+
+// This class represents all that is common between Student and Mentor
+class Person {
+  // moved here b/c it was identical
+  constructor(name, quirkyFact) {
+    this.name = name;
+    this.quirkyFact = quirkyFact;
+  }
+
+  // moved here b/c it was identical
+  bio() {
+    return `My name is ${this.name} and here's my quirky fact: ${this.quirkyFact}`;
+  }
+}
+
+```
+
+```
+class Student extends Person {
+  // stays in Student class since it's specific to students only
+  enroll(cohort) {
+    this.cohort = cohort;
+  }
+}
+
+class Mentor extends Person {
+  // specific to mentors
+  goOnShift() {
+    this.onShift = true;
+  }
+
+  // specific to mentors
+  goOffShift() {
+    this.onShift = false;
+  }
+}
+```
