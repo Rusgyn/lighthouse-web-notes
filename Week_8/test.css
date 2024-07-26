@@ -1,0 +1,18 @@
+* {
+  background-color: antiquewhite;
+}
+
+#id {
+  
+}
+
+#id.class1.class2.a { }
+
+[attr] { font-size:smaller;
+color: red }
+
+li .nav-item { ... }
+
+#page-header { ... }
+
+div p { ... }
